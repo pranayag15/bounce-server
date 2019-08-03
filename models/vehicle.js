@@ -19,7 +19,7 @@ const vehicleSchema = new Schema({
       required: true
     }
   ],
-    manufacturer: {
+  manufacturer: {
     type: String,
     required: true
   },
@@ -40,9 +40,7 @@ const vehicleSchema = new Schema({
     required: true
   },
   odometer: {
-    type: Number,
-    // required: true,
-    // default: 0
+    type: Number
   },
   price: {
     type: Number,
@@ -62,9 +60,24 @@ const vehicleSchema = new Schema({
     type: Boolean,
     default: false
   },
-  pickupTime: {
-    type: String,
-    default: new Date().toISOString()
+  // pickupTime: {
+  //   type: String,
+  //   default: new Date().toISOString()
+  // },
+  // dropTime: {
+  //   type: Object,
+  //   default: () => {
+  //     var date = new Date();
+  //     date.setDate(date.getDate() + 5);
+  //     var isodate = date.toISOString();
+  //     return isodate
+  //   }
+  // },
+  pickup: {
+    type: Object
+  },
+  drop: {
+    type: Object
   },
   perkm: {
     type: Number
@@ -79,10 +92,6 @@ const vehicleSchema = new Schema({
     type: Date,
     default: new Date().toISOString()
   },
-  // dropTime: { 
-  //     type: Date,
-  //     required: true
-  // },
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User',

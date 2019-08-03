@@ -109,10 +109,36 @@ router.get('/sortwise', (req, res) => {
         mainData[i].distance = distance
         console.log(distance)
       }
-      mainData.sort(function(a, b) {
+      mainData.sort(function (a, b) {
         return a.distance - b.distance;
-    });
+      });
       res.status(200).send(mainData)
+    })
+})
+
+router.get('/sortvehicle', (req, res) => {
+  var pick = req.query.pick
+  var drop = req.query.drop
+  var mainData = []
+  Vehicle.find({})
+    .then(data => {
+      for (var i=0; i < data.length; i++) {
+        if (data[i].pickup.date <= pick && data[i].drop.date >= drop) {
+          mainData.push(data[i])
+        }
+      }
+      var sortedData = JSON.parse(JSON.stringify(mainData));
+      for (var i = 0; i < mainData.length; i++) {
+        let lat = mainData[i].latitude
+        let lon = mainData[i].longitude
+        // console.log("hehehehe", lat, lon)
+        var distance = Math.acos(Math.sin(req.query.lat * Math.PI / 180) * Math.sin(lat * Math.PI / 180) + Math.cos(req.query.lat * Math.PI / 180) * Math.cos(lat * Math.PI / 180) * Math.cos(req.query.lon * Math.PI / 180 - lon * Math.PI / 180)) * 6371
+        sortedData[i].distance = distance
+      }
+      sortedData.sort(function (a, b) {
+        return a.distance - b.distance;
+      });
+      res.status(200).send(sortedData)
     })
 })
 
