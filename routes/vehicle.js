@@ -62,7 +62,6 @@ router.get('/nearby', (req, res) => {
   Vehicle
     .aggregate([{
       $addFields: {
-        _id: null,
         neww: { $add: ["$seats", "$perkm"] }
       }
     }])
@@ -78,6 +77,9 @@ router.get('/nearby', (req, res) => {
         console.log(distance)
       }
       res.status(200).send(mainData)
+    })
+    .catch(err => {
+      res.status(500).send(err)
     })
 })
 
@@ -114,6 +116,9 @@ router.get('/sortwise', (req, res) => {
       });
       res.status(200).send(mainData)
     })
+    .catch(err => {
+      res.status(500).send(err)
+    })
 })
 
 router.get('/sortvehicle', (req, res) => {
@@ -139,6 +144,9 @@ router.get('/sortvehicle', (req, res) => {
         return a.distance - b.distance;
       });
       res.status(200).send(sortedData)
+    })
+    .catch(err => {
+      res.status(500).send(err)
     })
 })
 
